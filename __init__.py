@@ -1,2 +1,0 @@
-"""AgentOps CTF challenge package."""
-
