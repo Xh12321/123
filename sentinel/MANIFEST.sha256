@@ -1,0 +1,30 @@
+# sentinel-node-lpe-hardening 交付文件输入摘要(sha256)
+# 生成时间:2026-10-12;覆盖除 MANIFEST.sha256 自身外的全部 17 个交付文件。
+# 算法:SHA-256,对文件原始字节逐字节计算(文本以仓库内 LF 换行的字节为准);
+#       行格式与 sha256sum(1) 标准输出一致:<64位十六进制摘要><两个空格><相对路径>。
+# 校验:在交付包根目录执行   sha256sum -c MANIFEST.sha256   须全部 OK。
+# 重算:内容任何改动(含填入 canary GUID 占位)后必须最后重生成,命令:
+#   cd <包根目录> && for f in environment/Dockerfile environment/setup.sh environment/seal.sh \
+#     environment/sentinel-packer.c environment/collect.sh environment/collect.conf \
+#     environment/10-disk.sh environment/20-audit.sh environment/motd \
+#     environment/README.internal.txt environment/agent.log tests/test.sh \
+#     tests/test_outputs.py solution/solve.sh instruction.md task.toml README.md; do sha256sum "$f"; done
+# 注意:本清单为包内自证(逐文件摘要),与平台对冻结仓库的整体 digest 口径不同,不要求互相一致;
+#       以本清单校验结果为准。
+71115b3f5907e4d0af5976985295d0397d03830c652842e706f5ca65eb3ca282  environment/Dockerfile
+18a5ed61c89e3ec0fc02fbe03d79236027888367c84a98b73c47ee75727bd6a7  environment/setup.sh
+e3f1d2f96d9d9152174ca3ad67bc310f69f4bf7e5fd6a23e3e4be010784838df  environment/seal.sh
+e5da4487619f457ad01b6262dcb39729821e1cfe71da0104de2cf4254f38b522  environment/sentinel-packer.c
+96ce392b7f709d99ece6fa423855c69df2919dcf2ec4dd65189dc58a1c9a6c13  environment/collect.sh
+7694df346faa33751a9da9bb2b48e41a980ca7f5f1d8fbb04fda082337536cd1  environment/collect.conf
+38f322ddf7d7cf3b959a6410fe91692490ccd73adbec334cbdfd65e01769216e  environment/10-disk.sh
+0d3b51e2413747c14ff7db0c6690a959911eb78e7f2cc8fa21a362af818287a1  environment/20-audit.sh
+4484005158a2078fcc3acac86b0d667a0ec4980d10fbe11e3f23ca6ffd8d876d  environment/motd
+cbbb4e4df234b56a38d291ca837829a9d111bf3eb22ebea01218a6aee0cea59f  environment/README.internal.txt
+7e06e8de173bf05408827a2363059c1803bda31933c9f76bdafc3372fe2a7dea  environment/agent.log
+7fe1b42be639edf46b43ea834464c38f344313a8aee55067f241ae8886f9c491  tests/test.sh
+cc0ff33fefa83c7a5fa34982d1ff1f67eebd01090c0751e98983414dbc8f1f2a  tests/test_outputs.py
+3f7ba059f37e8e314b80de25a3d8e291a278a6c4c1cd92a8b671f5cf1af4a6b7  solution/solve.sh
+b7679ce980049350372911a225957034c960007a7c2f7496b57ed7a10b220fbf  instruction.md
+e359a884686eb57ce1ac96646dbfe7391d55228a2e11b1ed3e2334042250ae16  task.toml
+9d2fc459a91890f187112ae44de1e82b0b029edb9f29da06dbe908588f7309db  README.md

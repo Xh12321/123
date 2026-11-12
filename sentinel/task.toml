@@ -1,0 +1,38 @@
+schema_version = "1.4"
+
+[task]
+name = "talents/sentinel-node-lpe-hardening"
+version = "2.9.7"
+description = "授权加固复测场景:以 root 进入 sentinel 监控节点,以 su 降权真实复现三处可被低权账户利用的注入面(采集配置注入 ops->collector;巡检目录与巡检附加清单写入 collector->root 侧巡检执行),沿注入链驱动日志中遗留的投放载荷、并与构建元数据/二进制内嵌构建引用拼接,解出两段式审计凭据完成取证;随后就地加固封死全部注入面,保持采集/巡检业务可用、清理遗留物与复现痕迹、交付结构化报告。采集配置交付时必须保留 root:ops 0664 与 ops 维护能力,采集器须按受限语法安全解析;巡检附加清单条目按 shell 内容读取,不要求执行位。判分为行为级注入重放+业务连续性+交付卫生的加权组合,含双门控(复现取证/注入面封死)与多副本一致性校验;全程不依赖任何特权增益,在 NoNewPrivs=1/0 的容器中行为一致。"
+keywords = ["security", "linux", "hardening", "pentest", "config-injection"]
+
+[metadata]
+difficulty = "hard"      # easy / medium / hard
+category = "security-coding"
+tags = ["security", "linux", "hardening", "pentest", "config-injection"]
+difficulty_explanation = "三处注入面的完整复现(降权视角)+ 密文凭据取证 + 就地加固(不得破坏业务与巡检能力,含附加清单扩展点能力保留与三处遗留业务异常修复)+ 遗留物清理 + 结构化报告;需要 Linux 权限模型、组权限/属主收敛、配置注入与巡检执行链的实操经验。熟悉该领域的专家约 60 分钟可完成,与 [agent] timeout_sec = 3600 的时限设置相称。"
+expert_time_estimate_min = 60.0
+junior_time_estimate_min = 180.0
+
+[agent]
+timeout_sec = 3600.0       # 与 expert_time_estimate_min 相称:多阶段任务(枚举→复现取证→就地加固→清理→报告)。
+user = "root"
+
+[verifier]
+timeout_sec = 900.0        # 判分内含多个 30 秒级超时强杀探针(7f/7m)与大量边界探针,耗时随契约面增长
+                           # (实测轨迹 87s→195s,详见 README 验证记录),900s 对当前实测(约 3.3 分钟)余量约 4.6 倍;
+                           # 后续每新增一个 30 秒级超时探针约 +35s,超出 900s 时同步上调本值
+user = "root"              # 判分需 root:通过 su 降权模拟 ops/collector 做行为级注入重放
+# 判分零联网由实现保证:判分器纯标准库、自包含,不发起任何网络调用。
+
+
+[environment]
+timeout_sec = 3600.0       # 与环境侧时限对齐,避免环境先行截断 agent 会话
+build_timeout_sec = 600.0
+# 题目与判分本身均不依赖外网;判分零联网由判分器实现保证(纯标准库、自包含,无网络调用)。
+network_mode = "public"
+os = "linux"
+cpus = 1
+memory_mb = 4096
+storage_mb = 10240
+gpus = 0
