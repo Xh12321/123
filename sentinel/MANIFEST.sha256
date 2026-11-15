@@ -1,0 +1,24 @@
+# sentinel-node-lpe-hardening 交付文件输入摘要(sha256)
+# 生成时间:2026-11-14;覆盖唯一交付包中除 MANIFEST.sha256 自身外的全部 17 个文件。
+# 算法:SHA-256,对文件原始字节逐字节计算;行格式与 sha256sum(1) 一致。
+# 校验:在包根目录执行   sha256sum -c MANIFEST.sha256   须全部 OK。
+# 重算:包内任一输入文件变化后,最后重新生成本清单;本清单不对自身递归散列。
+# 包边界:18个文件(本清单+以下17个);仅打包 README 所列 allowlist。
+# 上游输入快照:上次交付的完整项目代码
+e3d67f416faa5e42904272603a4e93e3c5c9ccd9223ec8660701668b1ce29b68  tests/test.sh
+ecd98a5201fc8f98c3bc92bf2d228345fafce15e748f4a06a4ebdbe07b70d1f2  tests/test_outputs.py
+d143becd251473ce0e32e9449df444361f48416a00652073107189b692858625  solution/solve.sh
+dbad2ea6003bd6552c9cd07a536e3fa531baee799610af99d4ee15358a6dde83  instruction.md
+1457c108ecedf40418650cd086b202c8652d3ff55ba933d9d98dfd665740837c  task.toml
+9dfb23473de9830fcb37322b0d3fbe8443ae6d5783d139aa019ef5f5fe350d01  README.md
+cfa41dae4df66d35d4479cff2280347caf41183830e70249cbce5e3cbf2cba28  environment/Dockerfile
+057d435ab706d1047e66042e01974cda76189a8f2fd4a5542ed5a51658563600  environment/setup.sh
+76ccfe798dbc8318d4d3509d4671d62ef28b1a2cb284047e9584b1f9f95932df  environment/seal.sh
+1820eee08635a80b79509612f1a506d2736c727afa7e46b4ed139655e23a5199  environment/sentinel-packer.c
+96ce392b7f709d99ece6fa423855c69df2919dcf2ec4dd65189dc58a1c9a6c13  environment/collect.sh
+7694df346faa33751a9da9bb2b48e41a980ca7f5f1d8fbb04fda082337536cd1  environment/collect.conf
+38f322ddf7d7cf3b959a6410fe91692490ccd73adbec334cbdfd65e01769216e  environment/10-disk.sh
+0d3b51e2413747c14ff7db0c6690a959911eb78e7f2cc8fa21a362af818287a1  environment/20-audit.sh
+4484005158a2078fcc3acac86b0d667a0ec4980d10fbe11e3f23ca6ffd8d876d  environment/motd
+cbbb4e4df234b56a38d291ca837829a9d111bf3eb22ebea01218a6aee0cea59f  environment/README.internal.txt
+7e06e8de173bf05408827a2363059c1803bda31933c9f76bdafc3372fe2a7dea  environment/agent.log
