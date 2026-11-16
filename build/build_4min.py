@@ -37,15 +37,16 @@ def new_slide(no, title, note=None):
     return s
 
 
-def figure(s, path, x, y, w, caption=None, cap_w=None):
+def figure(s, path, x, y, w, caption=None, cap_w=None, frame=True):
     pic = s.shapes.add_picture(path, Inches(x), Inches(y), width=Inches(w))
     h = pic.height / 914400
-    # 细边框，避免截图与白底面板粘在一起
-    fr = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, pic.left, pic.top, pic.width, pic.height)
-    fr.fill.background()
-    fr.line.color.rgb = TINT2
-    fr.line.width = Pt(0.75)
-    fr.shadow.inherit = False
+    if frame:
+        # 细边框，避免截图与白底面板粘在一起
+        fr = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, pic.left, pic.top, pic.width, pic.height)
+        fr.fill.background()
+        fr.line.color.rgb = TINT2
+        fr.line.width = Pt(0.75)
+        fr.shadow.inherit = False
     if caption:
         text(s, x, y + h + 0.08, cap_w or w, 0.28,
              [{'text': caption, 'size': 7.6, 'color': GRAY2}], spacing=1.15, tag='fig-cap')
@@ -301,29 +302,32 @@ text(sD, 6.94, 5.46, 5.76, 0.86,
 # P13 推广复用
 # =====================================================================
 sE = new_slide(13, '推广复用：配置化复用 + 四类场景三步走')
-rect(sE, X0, 1.30, 5.60, 2.56, fill=PALE, line=TINT, radius=0.04)
-text(sE, X0 + 0.18, 1.42, 5.1, 0.28,
-     [{'text': '一份任务描述 = 一次审计', 'size': 9.5, 'bold': True, 'color': BLUE, 'font': FONT_B}],
+rect(sE, X0, 1.30, 5.60, 2.06, fill=PALE, line=TINT, radius=0.04)
+text(sE, X0 + 0.18, 1.38, 5.1, 0.26,
+     [{'text': '一份任务描述 = 一次审计', 'size': 9.4, 'bold': True, 'color': BLUE, 'font': FONT_B}],
      spacing=1.0, tag='E-l1')
 task = ['代码位置与语言', '流程开关', '模型配置', '定制知识库', '自定义智能体']
 for i, t in enumerate(task):
     r, c = divmod(i, 2)
-    chip(sE, X0 + 0.18 + c * 2.56, 1.78 + r * 0.50, 2.38, 0.42, t, size=8.4,
+    chip(sE, X0 + 0.18 + c * 2.56, 1.68 + r * 0.44, 2.38, 0.38, t, size=8.2,
          fill=WHITE, color=BLUE_D, line=TINT2, radius=0.3)
-text(sE, X0 + 0.18, 3.42, 5.20, 0.34,
-     [{'text': '有特殊需求时，换一份任务描述即可，无需改动系统。', 'size': 8.2, 'color': GOLD_D}],
-     spacing=1.3, tag='E-n1')
+text(sE, X0 + 0.18, 3.04, 5.20, 0.26,
+     [{'text': '有特殊需求时，换一份任务描述即可，无需改动系统。', 'size': 7.8, 'color': GOLD_D}],
+     spacing=1.2, tag='E-n1')
 
-rect(sE, X0, 4.02, 5.60, 2.32, fill=WHITE, line=TINT, radius=0.04)
-text(sE, X0 + 0.18, 4.14, 4.0, 0.26, [{'text': '四类复用', 'size': 9.2, 'bold': True, 'color': BLUE, 'font': FONT_B}],
+rect(sE, X0, 3.46, 5.60, 1.26, fill=WHITE, line=TINT, radius=0.04)
+text(sE, X0 + 0.18, 3.54, 4.0, 0.24, [{'text': '四类复用', 'size': 9.0, 'bold': True, 'color': BLUE, 'font': FONT_B}],
      spacing=1.0, tag='E-l2')
 reuse = ['交付：镜像 + Compose，常驻仅控制平面与扫描服务',
          '策略：专项白名单、任务级提示词、知识集覆盖',
          '扩展：新增漏洞类型只需一份 YAML 定义',
          '接入：API-Key 鉴权 + 事件通道，可被平台/CICD 调用']
 for i, r in enumerate(reuse):
-    text(sE, X0 + 0.18, 4.46 + i * 0.42, 5.24, 0.34, [{'text': '· ' + r, 'size': 8.0, 'color': GRAY}],
-         spacing=1.2, tag='D-r')
+    text(sE, X0 + 0.18, 3.84 + i * 0.22, 5.24, 0.24, [{'text': '· ' + r, 'size': 7.6, 'color': GRAY}],
+         spacing=1.0, tag='D-r')
+
+figure(sE, AST + 'gen_reuse.png', X0 + 0.13, 4.86, 5.34,
+       caption='复用的不是代码，是能力与配置：一套流水线，多团队并行使用', cap_w=5.34, frame=False)
 
 rect(sE, 6.40, 1.30, 6.32, 2.90, fill=PALE, line=TINT, radius=0.04)
 text(sE, 6.58, 1.42, 5.4, 0.28, [{'text': '四类推广场景', 'size': 9.5, 'bold': True, 'color': BLUE, 'font': FONT_B}],
@@ -339,17 +343,17 @@ for i, (t, who, cap) in enumerate(scenes):
     text(sE, 8.06, y, 2.10, 0.28, [{'text': who, 'size': 7.4, 'color': GOLD_D}], spacing=1.0, tag='E-sc-w')
     text(sE, 10.20, y, 2.38, 0.28, [{'text': cap, 'size': 7.6, 'color': GRAY}], spacing=1.0, tag='E-sc-c')
 
-rect(sE, 6.40, 4.36, 6.32, 1.98, fill=WHITE, line=TINT, radius=0.04)
+rect(sE, 6.40, 4.36, 6.32, 2.26, fill=WHITE, line=TINT, radius=0.04)
 text(sE, 6.58, 4.46, 4.0, 0.26, [{'text': '推广三步走', 'size': 9.2, 'bold': True, 'color': BLUE, 'font': FONT_B}],
      spacing=1.0, tag='E-l4')
 steps3 = [('第一步', '试点项目验证'), ('第二步', '专业条线复制'), ('第三步', '全域平台接入')]
 for i, (n, t) in enumerate(steps3):
     x = 6.58 + i * 2.02
-    rect(sE, x, 4.78, 1.92, 0.74, fill=PALE, line=TINT, radius=0.08)
-    text(sE, x + 0.10, 4.82, 1.72, 0.24, [{'text': n, 'size': 7.0, 'color': GOLD_D}], spacing=1.0, tag='E-st-n')
-    text(sE, x + 0.10, 5.06, 1.74, 0.42, [{'text': t, 'size': 8.2, 'bold': True, 'color': INK}],
+    rect(sE, x, 4.80, 1.92, 0.80, fill=PALE, line=TINT, radius=0.08)
+    text(sE, x + 0.10, 4.86, 1.72, 0.24, [{'text': n, 'size': 7.0, 'color': GOLD_D}], spacing=1.0, tag='E-st-n')
+    text(sE, x + 0.10, 5.12, 1.74, 0.42, [{'text': t, 'size': 8.2, 'bold': True, 'color': INK}],
          spacing=1.2, tag='E-st-t')
-text(sE, 6.58, 5.66, 6.00, 0.50,
+text(sE, 6.58, 6.00, 6.00, 0.50,
      [{'text': '同一套方法论与知识集：项目越多，错题本越厚，边际成本越低。', 'size': 8.2, 'color': GOLD_D}],
      spacing=1.3, tag='E-n2')
 
