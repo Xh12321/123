@@ -968,6 +968,13 @@ text(s, X0, 6.02, 5.90, 0.36,
        'size': 8.2, 'color': GRAY2}], spacing=1.3, tag='ap-note2')
 note(s, '附录列出 44 个专项智能体的分类清单，可按需裁剪成白名单，也可按新漏洞类型扩充 YAML 定义。')
 
+# ---------- 逐页汇报词（写入备注栏） ----------
+from notes import NOTES
+
+for _i, _sl in enumerate(prs.slides, 1):
+    if _i in NOTES:
+        _sl.notes_slide.notes_text_frame.text = NOTES[_i]
+
 cp = prs.core_properties
 cp.title = '源代码审计智能体'
 cp.subject = '业务价值与成效 · 技术创新性 · 成熟度与稳定性 · 推广复用潜力'
