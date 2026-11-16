@@ -9,15 +9,26 @@ sys.path.insert(0, '/home/user/123/build')
 from deck_lib import *   # noqa
 import deck_lib as D
 
-SRC = '/home/user/123/模板.pptx'
+import os
+BASE = '/home/user/123/模板.pptx'
+LIGHT = '/tmp/tpl_light.pptx'
+try:                      # 轻量模板：清爽化体积（仅压缩底图，版式不变）
+    import slim_template
+    SRC = slim_template.build(BASE, LIGHT)
+except Exception as e:    # 失败则直接用原模板
+    print('轻量模板生成失败，改用原模板:', e)
+    SRC = BASE
 OUT = '/home/user/123/源代码审计智能体-技术与成果汇报.pptx'
 TOTAL = 26
 
 # ---------- 取出模板封面底图，供章节页复用 ----------
 with zipfile.ZipFile(SRC) as z:
-    COVER_BG = '/tmp/cover_bg.png'
+    _names = z.namelist()
+    _bg = next(n for n in ('ppt/media/image2.jpg', 'ppt/media/image2.jpeg', 'ppt/media/image2.png')
+               if n in _names)
+    COVER_BG = '/tmp/cover_bg.' + _bg.rsplit('.', 1)[1]
     with open(COVER_BG, 'wb') as f:
-        f.write(z.read('ppt/media/image2.png'))
+        f.write(z.read(_bg))
 
 prs = Presentation(SRC)
 
@@ -118,7 +129,7 @@ lead(s, 1.34,
      '传统代码审计高度依赖安全专家理解业务、追踪调用链并判断防护是否有效。面对多语言、多模块与持续迭代的项目，'
      '有限的专家投入难以同时兼顾风险覆盖、判断准确与经验复用。', h=0.80)
 pain = [
-    ('覆盖不全', '专家精力有限，只能抽检式审计；多语言、多框架、跨模块调用难以穷尽，内存安全、依赖组件等专项长期空白。',
+    ('覆盖不全', '专家精力有限，只能抽检式审计；多语言、多框架调用难以穷尽，内存安全、依赖组件等专项长期空白。',
      '44 类专项智能体 + 数据流追踪'),
     ('误报漏报', '规则扫描只给线索不给上下文，输入是否可控、防护是否有效仍需人工逐条判断，误报与漏报同时存在。',
      '正、反、裁三方辩论核验'),
