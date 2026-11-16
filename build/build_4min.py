@@ -122,8 +122,8 @@ for i, (c, n, d) in enumerate(cats):
     text(sB, X0 + 2.10, y, 3.10, 0.26, [{'text': d, 'size': 7.2, 'color': GRAY}], spacing=1.0, tag='B-d')
     if i < 6:
         hline(sB, X0 + 0.18, y + 0.40, 5.00, color=TINT2, lw=0.5)
-rect(sB, X0, 5.60, 5.34, 0.72, fill=WHITE, line=TINT, radius=0.05)
-text(sB, X0 + 0.16, 5.60, 5.02, 0.72,
+rect(sB, X0, 5.60, 5.34, 1.02, fill=WHITE, line=TINT, radius=0.05)
+text(sB, X0 + 0.16, 5.60, 5.02, 1.02,
      [{'text': '三类场景：项目级全量/增量 · 漏洞实证复现 · 依赖组件筛查', 'size': 8.2, 'color': GRAY}],
      anchor='m', spacing=1.3, tag='B-scene')
 
@@ -134,14 +134,14 @@ text(sB, 6.16, 1.42, 5.0, 0.28,
 fields = ['标题', '危害等级', '漏洞类型', 'CWE 编号', '文件与行号', '完整数据流',
           '漏洞描述', '代码片段', '修复建议', '验证数据包', '辩论痕迹']
 for i, f in enumerate(fields):
-    r, c = divmod(i, 3)
-    x, y = 6.16 + c * 2.14, 1.72 + r * 0.54
-    rect(sB, x, y, 2.02, 0.46, fill=PALE, line=TINT, radius=0.10)
-    text(sB, x + 0.12, y, 1.80, 0.46, [{'text': f, 'size': 8.6, 'color': INK}], anchor='m',
+    r, c = divmod(i, 6)
+    x, y = 6.16 + c * 1.10, 1.70 + r * 0.36
+    rect(sB, x, y, 1.02, 0.32, fill=PALE, line=TINT, radius=0.12)
+    text(sB, x, y, 1.02, 0.32, [{'text': f, 'size': 7.8, 'color': INK, 'align': 'c'}], anchor='m',
          spacing=1.0, tag='B-f')
-figure(sB, AST + 'ui_report.png', 6.30, 3.36, 6.10,
-       caption='平台实拍：漏洞清单（编号 / 类型 / 风险等级）与漏洞统计', cap_w=6.10)
-text(sB, 6.30, 6.24, 6.10, 0.30,
+figure(sB, AST + 'case_idor.jpg', 6.72, 2.52, 5.20,
+       caption='平台实拍：单条漏洞记录的类型、等级、文件位置、描述与代码片段', cap_w=5.20, frame=False)
+text(sB, 6.30, 6.24, 6.10, 0.28,
      [{'text': '过三道闸门（规则去重 → 辩论核验 → 实证验证）后，结论可复核、可追责、可复测。',
        'size': 7.8, 'color': GOLD_D}], spacing=1.2, tag='B-n')
 
